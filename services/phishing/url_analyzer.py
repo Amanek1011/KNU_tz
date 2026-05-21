@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from services.ai.virustotal_service import scan_url
 from services.utils.constants import BRAND_WORDS, SUSPICIOUS_TLDS
 from services.utils.helpers import build_result
 
@@ -10,6 +11,19 @@ def inspect_url(url):
     path = parsed.path.lower()
     score = 5
     signals = []
+
+    vt_stats = _scan_with_virustotal(url)
+    if vt_stats:
+        malicious = vt_stats['malicious']
+        suspicious = vt_stats['suspicious']
+        score += min(75, malicious * 25 + suspicious * 12)
+        signals.append(
+            'VirusTotal: '
+            f'{malicious} malicious, {suspicious} suspicious, '
+            f'{vt_stats["harmless"]} harmless, {vt_stats["undetected"]} undetected.'
+        )
+    else:
+        signals.append('VirusTotal недоступен или не настроен: выполнена локальная проверка URL.')
 
     if parsed.scheme != 'https':
         score += 25
@@ -34,3 +48,10 @@ def inspect_url(url):
         signals.append('Путь просит вход, подтверждение или бонус - это стоит проверить вручную.')
 
     return build_result(score, signals)
+
+
+def _scan_with_virustotal(url):
+    try:
+        return scan_url(url)
+    except Exception:
+        return None

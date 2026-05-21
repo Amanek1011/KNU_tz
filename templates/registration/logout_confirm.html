@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-card panel">
+    <p class="eyebrow">{{ ui.logout }}</p>
+    <h1>{{ ui.logout_title }}</h1>
+    <p class="muted">{{ ui.logout_text }}</p>
+    <form method="post" class="actions">
+        {% csrf_token %}
+        <button class="button primary" type="submit">{{ ui.yes_logout }}</button>
+        <button class="button" type="button" onclick="history.back()">{{ ui.cancel }}</button>
+    </form>
+</section>
+{% endblock %}

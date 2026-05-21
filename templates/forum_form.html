@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="panel wide">
+    <p class="eyebrow">{{ ui.new_story }}</p>
+    <h1>{{ ui.share_story }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button primary" type="submit">{{ ui.publish }}</button>
+    </form>
+</section>
+{% endblock %}

@@ -2,25 +2,42 @@
 
 {% block content %}
 <section class="page-head">
-    <p class="eyebrow">Тренажёр</p>
-    <h1>Определите, где обман</h1>
+    <p class="eyebrow">Groq Trainer</p>
+    <h1>{{ ui.trainer_title }}</h1>
+    <p class="lead">{{ ui.trainer_lead }}</p>
+</section>
+
+<section class="trainer-layout">
+    <section class="panel scenario trainer-card">
+        <div class="scenario-top">
+            <p class="eyebrow">{{ scenario.title }}</p>
+            <span class="pill">{{ ui.new_case }}</span>
+        </div>
+        <h2>{{ scenario.text }}</h2>
+        <form method="post" class="trainer-form">
+            {% csrf_token %}
+            {{ form.scenario_id }}
+            <div class="choices">{{ form.answer }}</div>
+            <button class="button primary" type="submit">{{ ui.submit_answer }}</button>
+        </form>
+    </section>
+
+    <aside class="panel tips-panel">
+        <p class="eyebrow">Signals</p>
+        <h2>{{ ui.signals }}</h2>
+        <ul class="clean-list">
+            <li>{{ ui.tip_1 }}</li>
+            <li>{{ ui.tip_2 }}</li>
+            <li>{{ ui.tip_3 }}</li>
+            <li>{{ ui.tip_4 }}</li>
+        </ul>
+    </aside>
 </section>
 
 {% if feedback %}
 <section class="result {% if feedback.is_correct %}ok{% else %}warn{% endif %}">
-    <strong>{% if feedback.is_correct %}Правильно{% else %}Ошибка{% endif %}</strong>
+    <strong>{% if feedback.is_correct %}{{ ui.correct }}{% else %}{{ ui.wrong }}{% endif %}</strong>
     <p>{{ feedback.feedback }}</p>
 </section>
 {% endif %}
-
-<section class="panel wide scenario">
-    <p class="eyebrow">{{ scenario.title }}</p>
-    <h2>{{ scenario.text }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.scenario_id }}
-        <div class="choices">{{ form.answer }}</div>
-        <button class="button primary" type="submit">Ответить</button>
-    </form>
-</section>
 {% endblock %}

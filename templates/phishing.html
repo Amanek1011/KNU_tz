@@ -2,29 +2,32 @@
 
 {% block content %}
 <section class="page-head">
-    <p class="eyebrow">Проверка фишинга</p>
-    <h1>Анализ ссылки или текста</h1>
+    <p class="eyebrow">Groq + VirusTotal</p>
+    <h1>{{ ui.phishing_title }}</h1>
+    <p class="lead">{{ ui.phishing_lead }}</p>
 </section>
 
 <section class="grid two">
     <form class="panel" method="post">
         {% csrf_token %}
         <input type="hidden" name="scan_mode" value="url">
-        <h2>Ссылка</h2>
+        <p class="eyebrow">URL</p>
+        <h2>{{ ui.url_panel }}</h2>
         {{ url_form.url.label_tag }}
         {{ url_form.url }}
         {{ url_form.url.errors }}
-        <button class="button primary" type="submit">Проверить ссылку</button>
+        <button class="button primary" type="submit">{{ ui.submit_url }}</button>
     </form>
 
     <form class="panel" method="post">
         {% csrf_token %}
         <input type="hidden" name="scan_mode" value="text">
-        <h2>Текст</h2>
+        <p class="eyebrow">Text</p>
+        <h2>{{ ui.text_panel }}</h2>
         {{ text_form.text.label_tag }}
         {{ text_form.text }}
         {{ text_form.text.errors }}
-        <button class="button primary" type="submit">Проверить текст</button>
+        <button class="button primary" type="submit">{{ ui.submit_text }}</button>
     </form>
 </section>
 

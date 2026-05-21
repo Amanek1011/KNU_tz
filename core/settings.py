@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.cybershield_ai.i18n.ui_context',
             ],
         },
     },
@@ -133,3 +134,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 HF_API_TOKEN = os.getenv('HF_API_TOKEN', '')
 GROQ_API_KEY = os.getenv('GROQ_API_KEY', '')
+GROQ_MODEL = os.getenv('GROQ_MODEL', 'llama-3.1-8b-instant')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.0-flash')
+VT_API_KEY = os.getenv('VT_API_KEY', '')
+
+LOGIN_URL = 'cybershield:login'
+LOGIN_REDIRECT_URL = 'cybershield:profile'
+LOGOUT_REDIRECT_URL = 'cybershield:home'

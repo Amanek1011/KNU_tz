@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head forum-head">
+    <div>
+        <p class="eyebrow">{{ ui.community }}</p>
+        <h1>{{ ui.forum_title }}</h1>
+        <p class="lead">{{ ui.forum_lead }}</p>
+    </div>
+    <a class="button primary" href="{% url 'cybershield:forum_create' %}">{{ ui.write_story }}</a>
+</section>
+
+<section class="forum-list">
+    {% for post in posts %}
+    <article class="post-card">
+        <div class="vote-box">
+            <strong>{{ post.likes_count }}</strong>
+            <span>{{ ui.likes }}</span>
+        </div>
+        <div>
+            <a href="{% url 'cybershield:forum_detail' post.id %}"><h2>{{ post.title }}</h2></a>
+            <p class="muted">{{ ui.author }}: <a class="text-link" href="{% url 'cybershield:public_profile' post.author.username %}">{{ post.author.username }}</a> · {{ post.created_at|date:"d.m.Y H:i" }} · {{ post.comments_count }} {{ ui.comments }}</p>
+            <p>{{ post.body|truncatechars:220 }}</p>
+        </div>
+    </article>
+    {% empty %}
+    <div class="panel">
+        <p class="muted">{{ ui.no_posts }}</p>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

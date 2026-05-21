@@ -1,25 +1,52 @@
 {% load static %}
 <!doctype html>
-<html lang="ru">
+<html lang="{{ ui.html_lang }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CyberShield AI</title>
+    <title>{% block title %}CyberShield AI{% endblock %}</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
+    <div class="graph-bg" aria-hidden="true"></div>
+
     <header class="topbar">
-        <a class="brand" href="{% url 'cybershield:home' %}">CyberShield AI</a>
-        <nav class="nav">
-            <a href="{% url 'cybershield:phishing' %}">Фишинг</a>
-            <a href="{% url 'cybershield:deepfake' %}">Дипфейки</a>
-            <a href="{% url 'cybershield:trainer' %}">Тренажёр</a>
-            <a href="{% url 'cybershield:dashboard' %}">Дашборд</a>
+        <a class="brand" href="{% url 'cybershield:home' %}" aria-label="CyberShield AI">
+            <span class="brand-mark"></span>
+            <span>CyberShield</span>
+        </a>
+
+        <nav class="nav" aria-label="{{ ui.nav_label }}">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'cybershield:phishing' %}">{{ ui.analysis }}</a>
+            <a href="{% url 'cybershield:deepfake' %}">{{ ui.files }}</a>
+            <a href="{% url 'cybershield:trainer' %}">{{ ui.trainer }}</a>
+            <a href="{% url 'cybershield:forum' %}">{{ ui.forum }}</a>
+            <a href="{% url 'cybershield:dashboard' %}">{{ ui.rating }}</a>
+            <a href="{% url 'cybershield:profile' %}">{{ ui.profile }}</a>
+            <a href="{% url 'cybershield:logout' %}">{{ ui.logout }}</a>
+            {% else %}
+            <a href="{% url 'cybershield:login' %}">{{ ui.login }}</a>
+            <a href="{% url 'cybershield:register' %}">{{ ui.register }}</a>
+            {% endif %}
+
+            <div class="language-switch" aria-label="{{ ui.language }}">
+                <span>{{ ui.language }}</span>
+                <a class="{% if ui_language == 'ky' %}is-active{% endif %}" href="{% url 'cybershield:set_language' 'ky' %}">KY</a>
+                <a class="{% if ui_language == 'ru' %}is-active{% endif %}" href="{% url 'cybershield:set_language' 'ru' %}">RU</a>
+                <a class="{% if ui_language == 'en' %}is-active{% endif %}" href="{% url 'cybershield:set_language' 'en' %}">EN</a>
+            </div>
         </nav>
     </header>
+
     <main class="shell">
+        {% if request.user.is_authenticated and request.resolver_match.url_name != 'home' %}
+        <button class="back-button" type="button" onclick="history.length > 1 ? history.back() : location.href='{% url 'cybershield:home' %}'">{{ ui.back }}</button>
+        {% endif %}
         {% block content %}{% endblock %}
     </main>
+
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

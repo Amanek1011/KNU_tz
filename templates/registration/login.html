@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-card panel">
+    <p class="eyebrow">{{ ui.account }}</p>
+    <h1>{{ ui.login }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button primary" type="submit">{{ ui.login }}</button>
+    </form>
+    <p class="muted">{{ ui.no_account }} <a class="text-link" href="{% url 'cybershield:register' %}">{{ ui.register }}</a></p>
+</section>
+{% endblock %}

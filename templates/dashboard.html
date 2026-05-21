@@ -2,28 +2,37 @@
 
 {% block content %}
 <section class="page-head">
-    <p class="eyebrow">Статистика</p>
-    <h1>Дашборд CyberShield</h1>
+    <p class="eyebrow">Leaderboard</p>
+    <h1>{{ ui.dashboard_title }}</h1>
+    <p class="lead">{{ ui.dashboard_lead }}</p>
 </section>
 
 <section class="grid four">
-    <div class="metric"><span>Проверок</span><strong>{{ total_scans }}</strong></div>
-    <div class="metric"><span>Высокий риск</span><strong>{{ high_risk_scans }}</strong></div>
-    <div class="metric"><span>Ответов</span><strong>{{ trainer_attempts }}</strong></div>
-    <div class="metric"><span>Точность</span><strong>{{ trainer_accuracy }}%</strong></div>
+    <div class="metric"><span>{{ ui.total_scans }}</span><strong>{{ total_scans }}</strong></div>
+    <div class="metric"><span>{{ ui.high_risk }}</span><strong>{{ high_risk_scans }}</strong></div>
+    <div class="metric"><span>{{ ui.answers }}</span><strong>{{ trainer_attempts }}</strong></div>
+    <div class="metric"><span>{{ ui.accuracy }}</span><strong>{{ trainer_accuracy }}%</strong></div>
 </section>
 
 <section class="section">
-    <h2>История</h2>
-    <div class="list">
-        {% for scan in recent_scans %}
-        <div class="row">
-            <strong>{{ scan.get_scan_type_display }}</strong>
-            <span>{{ scan.verdict }}</span>
-            <span class="score">{{ scan.risk_score }}%</span>
-        </div>
+    <div class="leaderboard">
+        {% for row in leaderboard %}
+        <a class="leader-row" href="{% url 'cybershield:public_profile' row.user.username %}">
+            <span class="pill">#{{ forloop.counter }}</span>
+            <div>
+                <strong>{{ row.user.username }}</strong>
+                <p class="muted">
+                    {{ row.scans_count }} {{ ui.total_scans }} · {{ row.attempts_count }} {{ ui.answers }} ·
+                    {{ row.posts_count }} {{ ui.stories }} · {{ row.comments_count }} {{ ui.comments }} ·
+                    {{ ui.accuracy }} {{ row.accuracy }}%
+                </p>
+            </div>
+            <span class="score">{{ row.score }} {{ ui.points }}</span>
+        </a>
         {% empty %}
-        <p class="muted">Проверок пока нет.</p>
+        <div class="panel">
+            <p class="muted">{{ ui.no_leaders }}</p>
+        </div>
         {% endfor %}
     </div>
 </section>

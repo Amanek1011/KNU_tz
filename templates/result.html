@@ -1,8 +1,8 @@
 {% if result %}
-<section class="result">
+<section class="result {% if result.risk_score >= 70 %}warn{% elif result.risk_score <= 30 %}ok{% endif %}">
     <div class="risk-circle" style="--risk: {{ result.risk_score }}%">{{ result.risk_score }}%</div>
     <div>
-        <p class="eyebrow">Результат</p>
+        <p class="eyebrow">{{ ui.result }}</p>
         <h2>{{ result.verdict }}</h2>
         <p>{{ result.explanation }}</p>
     </div>

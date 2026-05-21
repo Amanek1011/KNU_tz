@@ -2,16 +2,19 @@
 
 {% block content %}
 <section class="page-head">
-    <p class="eyebrow">Deepfake detection</p>
-    <h1>Проверка фото или видео</h1>
+    <p class="eyebrow">VirusTotal</p>
+    <h1>{{ ui.file_title }}</h1>
+    <p class="lead">{{ ui.file_lead }}</p>
 </section>
 
 <form class="panel wide" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <p class="eyebrow">Upload</p>
+    <h2>{{ ui.file_panel }}</h2>
     {{ form.media.label_tag }}
     {{ form.media }}
     {{ form.media.errors }}
-    <button class="button primary" type="submit">Проверить медиа</button>
+    <button class="button primary" type="submit">{{ ui.submit_file }}</button>
 </form>
 
 {% include 'result.html' %}
