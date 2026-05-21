@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <p class="eyebrow">Deepfake detection</p>
+    <h1>Проверка фото или видео</h1>
+</section>
+
+<form class="panel wide" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.media.label_tag }}
+    {{ form.media }}
+    {{ form.media.errors }}
+    <button class="button primary" type="submit">Проверить медиа</button>
+</form>
+
+{% include 'result.html' %}
+{% endblock %}

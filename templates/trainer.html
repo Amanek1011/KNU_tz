@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <p class="eyebrow">Тренажёр</p>
+    <h1>Определите, где обман</h1>
+</section>
+
+{% if feedback %}
+<section class="result {% if feedback.is_correct %}ok{% else %}warn{% endif %}">
+    <strong>{% if feedback.is_correct %}Правильно{% else %}Ошибка{% endif %}</strong>
+    <p>{{ feedback.feedback }}</p>
+</section>
+{% endif %}
+
+<section class="panel wide scenario">
+    <p class="eyebrow">{{ scenario.title }}</p>
+    <h2>{{ scenario.text }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.scenario_id }}
+        <div class="choices">{{ form.answer }}</div>
+        <button class="button primary" type="submit">Ответить</button>
+    </form>
+</section>
+{% endblock %}

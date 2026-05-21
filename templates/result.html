@@ -1,0 +1,10 @@
+{% if result %}
+<section class="result">
+    <div class="risk-circle" style="--risk: {{ result.risk_score }}%">{{ result.risk_score }}%</div>
+    <div>
+        <p class="eyebrow">Результат</p>
+        <h2>{{ result.verdict }}</h2>
+        <p>{{ result.explanation }}</p>
+    </div>
+</section>
+{% endif %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <p class="eyebrow">Проверка фишинга</p>
+    <h1>Анализ ссылки или текста</h1>
+</section>
+
+<section class="grid two">
+    <form class="panel" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="scan_mode" value="url">
+        <h2>Ссылка</h2>
+        {{ url_form.url.label_tag }}
+        {{ url_form.url }}
+        {{ url_form.url.errors }}
+        <button class="button primary" type="submit">Проверить ссылку</button>
+    </form>
+
+    <form class="panel" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="scan_mode" value="text">
+        <h2>Текст</h2>
+        {{ text_form.text.label_tag }}
+        {{ text_form.text }}
+        {{ text_form.text.errors }}
+        <button class="button primary" type="submit">Проверить текст</button>
+    </form>
+</section>
+
+{% include 'result.html' %}
+{% endblock %}

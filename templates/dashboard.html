@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-head">
+    <p class="eyebrow">Статистика</p>
+    <h1>Дашборд CyberShield</h1>
+</section>
+
+<section class="grid four">
+    <div class="metric"><span>Проверок</span><strong>{{ total_scans }}</strong></div>
+    <div class="metric"><span>Высокий риск</span><strong>{{ high_risk_scans }}</strong></div>
+    <div class="metric"><span>Ответов</span><strong>{{ trainer_attempts }}</strong></div>
+    <div class="metric"><span>Точность</span><strong>{{ trainer_accuracy }}%</strong></div>
+</section>
+
+<section class="section">
+    <h2>История</h2>
+    <div class="list">
+        {% for scan in recent_scans %}
+        <div class="row">
+            <strong>{{ scan.get_scan_type_display }}</strong>
+            <span>{{ scan.verdict }}</span>
+            <span class="score">{{ scan.risk_score }}%</span>
+        </div>
+        {% empty %}
+        <p class="muted">Проверок пока нет.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

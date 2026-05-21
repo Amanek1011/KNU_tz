@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class CybershieldAiConfig(AppConfig):
-    name = 'cybershield_ai'
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'apps.cybershield_ai'

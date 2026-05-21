@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">AI-сервис кибербезопасности</p>
+        <h1>Проверяйте ссылки, тексты и медиа до того, как они станут проблемой.</h1>
+        <p class="lead">MVP для быстрого анализа фишинга, подозрительных сообщений, дипфейков и обучения пользователей на интерактивных сценариях.</p>
+        <div class="actions">
+            <a class="button primary" href="{% url 'cybershield:phishing' %}">Начать проверку</a>
+            <a class="button ghost" href="{% url 'cybershield:trainer' %}">Открыть тренажёр</a>
+        </div>
+    </div>
+    <div class="signal-panel">
+        <span class="pulse"></span>
+        <strong>Live risk scan</strong>
+        <p>URL, текст, медиа, история проверок и обучающие задания.</p>
+    </div>
+</section>
+
+<section class="grid three">
+    <a class="tile" href="{% url 'cybershield:phishing' %}">
+        <span>01</span>
+        <h2>Фишинг</h2>
+        <p>Проверка ссылок и сообщений на давление, подозрительные домены и просьбы выдать данные.</p>
+    </a>
+    <a class="tile" href="{% url 'cybershield:deepfake' %}">
+        <span>02</span>
+        <h2>Медиа</h2>
+        <p>Базовая оценка фото и видео с точкой расширения для Hugging Face моделей.</p>
+    </a>
+    <a class="tile" href="{% url 'cybershield:trainer' %}">
+        <span>03</span>
+        <h2>Тренажёр</h2>
+        <p>Сценарии мошенничества с обратной связью, чтобы пользователь учился распознавать угрозы.</p>
+    </a>
+</section>
+
+{% if latest_scans %}
+<section class="section">
+    <h2>Последние проверки</h2>
+    <div class="list">
+        {% for scan in latest_scans %}
+        <div class="row">
+            <strong>{{ scan.get_scan_type_display }}</strong>
+            <span>{{ scan.verdict }}</span>
+            <span class="score">{{ scan.risk_score }}%</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}
